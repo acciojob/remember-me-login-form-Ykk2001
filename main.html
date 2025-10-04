@@ -1,16 +1,79 @@
 <!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login Form</title>
+  </head>
+  <body>
+    <form action="">
+      <h1>Login Form</h1>
 
-<html>
+      <div class="username">
+        <label for="username">User Name</label>
+        <input type="text" placeholder="Username" id="username" />
+      </div>
 
-<head>
-	<link rel="stylesheet" href="styles.css">
-</head>
+      <div class="password">
+        <label for="password">Password</label>
+        <input type="password" placeholder="Password" id="password" />
+      </div>
 
-<body>
-	<!-- the entire body must be written by student -->
-    <script type="text/javascript" src="./script.js">
-</script>
+      <div class="checkbox">
+        <input type="checkbox" id="checkbox" />
+        <label for="checkbox">Remember me</label>
+      </div>
 
-</body>
+      <div class="submit">
+        <input type="submit" id="submit" value="submit" />
+      </div>
 
+      <button id="existing" hidden>Login as existing user</button>
+    </form>
+
+    <script>
+      let submitBtn = document.getElementById("submit");
+      let username = document.getElementById("username");
+      let password = document.getElementById("password");
+      let checkbox = document.getElementById("checkbox");
+      let existing = document.getElementById("existing");
+      
+      //2nd Step--->1stly onloading the page it will check if the user existing or not if user is existing then it will be enable the existing user btn else it will disable the btn
+      window.addEventListener("load", () => {
+        if (
+          localStorage.getItem("Username") &&
+          localStorage.getItem("Password")
+        ) {
+          existing.hidden = false;
+        } else {
+          existing.hidden = true;
+        }
+      });
+      
+      //1st step --> when we submit the form then if we want to remmeber me  the password and does not want to store the pass inside the localstorage then we uncheck the box if want to store the pass then we checked the box then it will stored the pass inside the localstorage
+      submitBtn.addEventListener("click", () => {
+        event.preventDefault();
+        alert(`Logged in as ${username.value}`);
+
+        let userValue = username.value;
+        let passValue = password.value;
+
+        if (checkbox.checked) {
+          localStorage.setItem("Username", userValue);
+          localStorage.setItem("Password", passValue);
+          alert('Credentials are stored inside the local storage');
+        } else {
+          localStorage.removeItem("Username");
+          localStorage.removeItem("Password");
+          alert('Credentials are not stored');
+        }
+      }); //submit form
+
+      //3rd Step-->if we are existing user then it will enable the existing user btn and sgowing the username to the user
+      existing.addEventListener("click", () => {
+        let username = localStorage.getItem("Username");
+        alert(`Logged in as ${username}`);
+      });
+    </script>
+  </body>
 </html>
